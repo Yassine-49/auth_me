@@ -3,11 +3,11 @@ require('dotenv').config();
 module.exports = {
   development: {
     username: 'root',
-    password: process.env.MYSQL_ROOT_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    password: 'Shitisreal',
+    database: 'auth_me_db',
     host: '127.0.0.1',
     dialect: 'mysql',
-    operatorsAliases: false,
+    operatorsAliases: 0,
   },
   test: {
     username: 'root',
@@ -15,7 +15,7 @@ module.exports = {
     database: process.env.MYSQL_TEST_DATABASE,
     host: '127.0.0.1',
     dialect: 'mysql',
-    operatorsAliases: false,
+    operatorsAliases: 0,
   },
   production: {
     username: 'root',
@@ -23,6 +23,6 @@ module.exports = {
     database: 'auth_me_prod',
     host: '127.0.0.1',
     dialect: 'mysql',
-    operatorsAliases: false,
+    operatorsAliases: 0,
   },
 };
