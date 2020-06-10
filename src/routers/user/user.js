@@ -86,7 +86,7 @@ router.route('/google')
   .get(googleAuthMiddleware);
 
 // google redirect
-router.route('/google/redirect')
+router.route(process.env.GOOGLE_AUTH_REDIRECT_URI)
   .get(googleAuthMiddleware,
     userController.googleLogin);
 
@@ -95,7 +95,7 @@ router.route('/github')
   .get(githubAuthMiddleware);
 
 // GithubStrategy: redirect
-router.route('/github/redirect')
+router.route(process.env.GITHUB_AUTH_REDIRECT_URI)
   .get(githubAuthMiddleware,
     userController.githubLogin);
 
@@ -104,7 +104,7 @@ router.route('/facebook')
   .get(facebookAuthMiddleware);
 
 // FacebookStrategy: redirect
-router.route('/facebook/redirect')
+router.route(process.env.FACEBOOK_AUTH_REDIRECT_URI)
   .get(facebookAuthMiddleware,
     userController.facebookLogin);
 
