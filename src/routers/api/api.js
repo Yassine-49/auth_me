@@ -8,9 +8,11 @@ const isLoggedIn = (req, res, next) => {
     return next();
   }
   const error = new Error('user not logged in!');
+  res.status(403);
   return next(error);
 };
 
+// data: validate login > controller
 router.route('/data')
   .get(isLoggedIn,
     apiController.data);

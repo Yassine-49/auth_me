@@ -68,4 +68,34 @@ module.exports = {
       next(error);
     }
   },
+  // Google login function
+  googleLogin: async (req, res, next) => {
+    try {
+      res.status(200).json({
+        message: 'user logged in! (google)',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  // Github login function
+  githubLogin: async (req, res, next) => {
+    try {
+      res.status(200).json({
+        message: 'user logged in! (github)',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  // Facebook login function
+  facebookLogin: async (req, res, next) => {
+    try {
+      res.status(200).json({
+        message: 'user logged in! (facebook)',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

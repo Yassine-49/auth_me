@@ -6,27 +6,106 @@ const passportConfig = require('../../passport');
 const userController = require('../../controllers/user');
 const { validateBody, schemas } = require('../../middlewares/validationHandler');
 
-// authenitcation middleware
+// ==== Middlewares ====
+
+// local authenitcation middleware
 const localAuthMiddleware = (req, res, next) => {
   passport.authenticate('local', (error, user) => {
     if (error || !user) {
       res.status(403);
-      return next(error);
+      const newError = error || new Error('Unauthorized!');
+      return next(newError);
     }
     req.user = user;
     return next();
   })(req, res, next);
 };
 
-// register: > validate schema > validate duplicate > insert
+// google authentication middleware
+const googleAuthMiddleware = (req, res, next) => {
+  passport.authenticate('google', {
+    scope: ['profile'],
+  }, (error, user) => {
+    if (error || !user) {
+      res.status(403);
+      const newError = error || new Error('Unauthorized!');
+      return next(newError);
+    }
+    req.user = user;
+    return next();
+  })(req, res, next);
+};
+
+// github authentication middlware
+const githubAuthMiddleware = (req, res, next) => {
+  passport.authenticate('github', {
+    scope: ['read:user'],
+  }, (error, user) => {
+    if (error || !user) {
+      res.status(403);
+      const newError = error || new Error('Unauthorized!');
+      return next(newError);
+    }
+    req.user = user;
+    return next();
+  })(req, res, next);
+};
+
+// facebook authenitcation middleware
+const facebookAuthMiddleware = (req, res, next) => {
+  passport.authenticate('facebook', {
+    scope: ['todo'],
+  }, (error, user) => {
+    if (error || !user) {
+      res.status(403);
+      const newError = error || new Error('Unauthorized!');
+      return next(newError);
+    }
+    req.user = user;
+    return next();
+  })(req, res, next);
+};
+
+// ==== Routes ====
+
+// Register
+// register: > validate schema  > controller
 router.route('/register')
   .post(validateBody(schemas.register),
     userController.register);
 
-// login: > validate schema > authenticate > login
+// LocalStrategy: login
+// login: > validate schema > authenticate > controller
 router.route('/login')
   .post(validateBody(schemas.login),
     localAuthMiddleware,
     userController.login);
+
+// GoogleStrtegy: redirect
+router.route('/google')
+  .get(googleAuthMiddleware);
+
+// google redirect
+router.route('/google/redirect')
+  .get(googleAuthMiddleware,
+    userController.googleLogin);
+
+// GithubStrategy: login
+router.route('/github')
+  .get(githubAuthMiddleware);
+
+// GithubStrategy: redirect
+router.route('/github/redirect')
+  .get(githubAuthMiddleware,
+    userController.githubLogin);
+
+// FacebookStrategy: login
+router.route('/facebook')
+  .get(facebookAuthMiddleware);
+
+// FacebookStrategy: redirect
+router.route('/facebook/redirect')
+  .get(facebookAuthMiddleware,
+    userController.facebookLogin);
 
 module.exports = router;
